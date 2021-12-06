@@ -67,7 +67,7 @@ public class ModelCraps {
      * estado = 5 Punto loser
      */
     private void rondaPunto() {
-        if(tiro=punto){
+        if(tiro==punto){
             estado=4;
             flag=0;
         }
