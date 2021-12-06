@@ -17,7 +17,7 @@ public class GUI extends JFrame {
             +"\nSi tu tiro de salida es 2, 3 u 12 pierdes con Craps"
             +"\nSi sacas cualquier otro valor establecerás el Punto"
             +"\nEstando en punto, podrás seguir lanzando los dados"
-            +"\npero ahora ganarás si sacas nuevamente el valor del Punto"
+            +"\n pero ahora ganarás si sacas nuevamente el valor del Punto"
             +"\nsin que previamente hayas sacado 7";
 
     private Header headerProject;
@@ -25,7 +25,8 @@ public class GUI extends JFrame {
     private JButton lanzar;
     private JPanel panelDados, panelResultados;
     private ImageIcon imageDado;
-    private JTextArea resultados;
+    private JTextArea mensajesSalida, resultadosDados;
+    private JSeparator separator;
     private Escucha escucha;
     private ModelCraps modelCraps;
 
@@ -74,11 +75,22 @@ public class GUI extends JFrame {
 
         this.add(panelDados,BorderLayout.CENTER);
 
-        resultados = new JTextArea(7,31);
-        resultados.setText(MENSAJE_INICIO);
-        resultados.setBorder(BorderFactory.createTitledBorder("Que debes hacer"));
-        JScrollPane scroll = new JScrollPane(resultados);
-        this.add(scroll,BorderLayout.EAST);
+        mensajesSalida = new JTextArea(7,31);
+        mensajesSalida.setText(MENSAJE_INICIO);
+        //mensajesSalida.setBorder(BorderFactory.createTitledBorder("Que debes hacer"));
+        JScrollPane scroll = new JScrollPane(mensajesSalida);
+
+        panelResultados = new JPanel();
+        panelResultados.setBorder(BorderFactory.createTitledBorder("Que debes hacer"));
+        panelResultados.add(scroll);
+        panelResultados.setPreferredSize(new Dimension(370,180));
+
+        this.add(panelResultados,BorderLayout.EAST);
+
+        resultadosDados = new JTextArea(4,31);
+        separator = new JSeparator();
+        separator.setPreferredSize(new Dimension(320,7));
+        separator.setBackground(Color.BLUE);
     }
 
     /**
@@ -107,7 +119,17 @@ public class GUI extends JFrame {
             dado2.setIcon(imageDado);
 
             modelCraps.determinarJuego();
-            resultados.setText(modelCraps.getEstadoToString());
+
+            panelResultados.removeAll();
+            panelResultados.setBorder(BorderFactory.createTitledBorder("Resultados"));
+            panelResultados.add(resultadosDados);
+            panelResultados.add(separator);
+            panelResultados.add(mensajesSalida);
+            resultadosDados.setText(modelCraps.getEstadoToString()[0]);
+            mensajesSalida.setRows(4);
+            mensajesSalida.setText(modelCraps.getEstadoToString()[1]);
+            revalidate();
+            repaint();
         }
     }
 }
